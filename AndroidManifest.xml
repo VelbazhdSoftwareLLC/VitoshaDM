@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eu.veldsoft.vitoshadm"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="1.1" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -21,7 +21,7 @@
             android:noHistory="true" >
             <meta-data
                 android:name="timeout"
-                android:value="3000" />
+                android:value="5000" />
             <meta-data
                 android:name="redirect"
                 android:value="eu.veldsoft.vitoshadm.DecisionMakerActivity" />
