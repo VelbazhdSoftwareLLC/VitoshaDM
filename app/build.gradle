@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "eu.veldsoft.vitoshadm"
-        minSdk 34
-        targetSdk 34
-        versionCode 1
-        versionName "1.00"
+        minSdk 33
+        targetSdk 33
+        versionCode 4
+        versionName "1.03"
     }
 
     buildTypes {
