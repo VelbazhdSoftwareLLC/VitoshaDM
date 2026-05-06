@@ -1,0 +1,120 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Build a debug APK"
+  lane :build_debug do
+    gradle(
+      task: "assemble",
+      build_type: "debug"
+    )
+  end
+
+  desc "Build a release APK"
+  lane :build_release do
+    gradle(
+      task: "assemble",
+      build_type: "release"
+    )
+  end
+
+  desc "Build a release AAB for Google Play"
+  lane :build_aab do
+    gradle(
+      task: "bundle",
+      build_type: "release"
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    build_aab
+    upload_to_play_store(
+      track: "internal",
+      release_notes: "New version with improvements and bug fixes"
+    )
+  end
+
+  desc "Deploy to internal testing track"
+  lane :deploy_internal do
+    build_aab
+    upload_to_play_store(
+      track: "internal",
+      release_notes: "Internal testing release"
+    )
+  end
+
+  desc "Deploy to alpha testing track"
+  lane :deploy_alpha do
+    build_aab
+    upload_to_play_store(
+      track: "alpha",
+      release_notes: "Alpha testing release"
+    )
+  end
+
+  desc "Deploy to beta testing track"
+  lane :deploy_beta do
+    build_aab
+    upload_to_play_store(
+      track: "beta",
+      release_notes: "Beta testing release"
+    )
+  end
+
+  desc "Deploy to production"
+  lane :deploy_production do
+    build_aab
+    upload_to_play_store(
+      track: "production",
+      release_notes: "Production release"
+    )
+  end
+
+  desc "Run lint checks"
+  lane :lint do
+    gradle(task: "lintDebug")
+  end
+
+  desc "Clean the project"
+  lane :clean do
+    gradle(task: "clean")
+  end
+
+  desc "Increment version code"
+  lane :increment_version do
+    increment_version_code(
+      gradle_file_path: "app/build.gradle"
+    )
+  end
+
+  desc "Take screenshots"
+  lane :screenshot do
+    gradle(task: "assembleDebug")
+    capture_android_screenshots
+  end
+
+  # Error handling
+  error do |lane, exception|
+    UI.error("Lane #{lane} failed with exception: #{exception}")
+  end
+end
